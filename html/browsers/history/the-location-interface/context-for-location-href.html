@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<!-- Incumbent Realm -->
+<script>
+function go() {
+    frames[0].frames[0].location.href = "target-for-location.html";
+}
+async_test(t => {
+  window.addEventListener("message", t.step_func_done(function(e) {
+    assert_equals(
+        e.data.location,
+        new URL('resources/target-for-location.html', location.href).href,
+        'Base URL should use the entry settings object');
+    assert_equals(e.data.referrer, location.href,
+        'Referrer should use the incumbent settings object');
+  }));
+}, 'location');
+</script>
+<iframe src="resources/middle-frame-for-location.html"></iframe>

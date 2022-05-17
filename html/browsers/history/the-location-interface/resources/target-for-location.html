@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+// In context-for-* tests,
+// - The incumbent Realm is that of ../context-for-*.html
+// - The entry Realm is that of ./middle-frame-for-location.html
+// - The relevant Realm of Location/Window is that of about:blank
+//   inside middle-frame-for-location.html.
+
+// Base URL used for parsing a relative URL to `target-for-location.html`
+// should be the base URL of the entry settings object in:
+// https://html.spec.whatwg.org/C/#dom-location-href
+// https://html.spec.whatwg.org/multipage/history.html#dom-location-assign
+// https://html.spec.whatwg.org/multipage/window-object.html#window-open-steps
+
+// `document.referrer` should reflect the source browsing context,
+// which is the incumbent in
+// https://html.spec.whatwg.org/C/#location-object-navigate
+// but is the entry in
+// https://html.spec.whatwg.org/C/#window-open-steps
+window.onload = function() {
+    top.postMessage(
+        {location: location.href, referrer: document.referrer},
+        "*");
+}
+</script>
+</head>
+</html>
